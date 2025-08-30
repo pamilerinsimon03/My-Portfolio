@@ -61,8 +61,8 @@ const projects = [
       "/images/Screenshot 2025-08-30 025959.png"
     ],
     stack: ["React", "Next.js", "Tailwind CSS", "TypeScript"],
-    liveUrl: "#",
-    githubUrl: "https://github.com/pamilerinsimon03",
+    liveUrl: "https://pamilerin-portfolio.vercel.app/",
+    githubUrl: "https://github.com/pamilerinsimon03/My-Portfolio",
   },
 ];
 
