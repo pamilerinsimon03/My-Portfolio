@@ -36,8 +36,8 @@ const projects = [
       "/images/Screenshot 2025-06-02 100210.png",
     ],
     stack: ["Python", "AI", "ML", "APIs"],
-    liveUrl: "https://omnicrypto.streamlit.app/",
-    githubUrl: "https://omnicrypto.streamlit.app/",
+    liveUrl: "https://omnicrypto.onrender.com/",
+    githubUrl: "https://omnicrypto.onrender.com/",
   },
   {
     title: "Cloudber",
