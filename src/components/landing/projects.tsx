@@ -37,7 +37,7 @@ const projects = [
     ],
     stack: ["Python", "AI", "ML", "APIs"],
     liveUrl: "https://omnicrypto.onrender.com/",
-    githubUrl: "https://omnicrypto.onrender.com/",
+    githubUrl: "https://github.com/pamilerinsimon03/OmniCrypto-Demo",
   },
   {
     title: "Cloudber",
