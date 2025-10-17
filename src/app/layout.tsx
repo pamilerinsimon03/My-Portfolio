@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import './globals.css';
-import { Toaster } from "@/components/ui/toaster";
+import { ToasterWrapper } from "@/components/toaster-wrapper";
 import { ThemeProvider } from '@/components/theme-provider';
 import { PageLoaderWrapper } from '@/components/page-loader-wrapper';
 import { CursorTrail } from '@/components/cursor-trail';
@@ -33,7 +33,7 @@ export default function RootLayout({
             {children}
           </PageLoaderWrapper>
           <CursorTrail />
-          <Toaster />
+          <ToasterWrapper />
         </ThemeProvider>
       </body>
     </html>

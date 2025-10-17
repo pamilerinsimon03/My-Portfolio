@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { Menu, Moon, Sun, Github, Linkedin, Mail } from "lucide-react";
 import React, { useState, useEffect } from "react";
 import { useTheme } from "next-themes";
@@ -107,7 +107,7 @@ export function Header() {
 
   return (
     <motion.header 
-      className="fixed top-0 left-0 right-0 z-50 px-4 lg:px-6 h-16 flex items-center shadow-sm"
+      className="fixed top-0 left-0 right-0 z-50 px-4 lg:px-6 h-16 flex items-center shadow-sm w-full max-w-full overflow-hidden"
       style={isMounted ? {
         backgroundColor: `rgba(var(--background), ${headerOpacity.get()})`,
         backdropFilter: `blur(${headerBlur.get()}px)`,
@@ -128,7 +128,7 @@ export function Header() {
           <span className="font-headline font-semibold text-lg">Olaniran Pamilerin</span>
         </Link>
       </motion.div>
-      <nav className="ml-auto hidden md:flex items-center gap-4 sm:gap-6">
+      <nav className="ml-auto hidden md:flex items-center gap-2 sm:gap-4 lg:gap-6 max-w-full overflow-hidden">
         <motion.a 
           onClick={() => scrollTo("projects")} 
           className="text-sm font-medium hover:text-primary cursor-pointer relative group"
@@ -186,6 +186,7 @@ export function Header() {
           </Button>
         </SheetTrigger>
         <SheetContent side="left" className="flex flex-col p-6">
+            <SheetTitle className="sr-only">Navigation Menu</SheetTitle>
             <div className="p-4 border-b flex justify-between items-center">
                 <Link href="#" className="flex items-center gap-2" prefetch={false} onClick={() => setOpen(false)}>
                     <LogoIcon className="h-6 w-6 text-primary" />

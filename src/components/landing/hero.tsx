@@ -18,8 +18,8 @@ export function Hero() {
   };
   
   return (
-    <section className="w-full flex items-center" style={{ height: 'calc(100vh - 4rem)' }}>
-      <div className="container mx-auto px-4 md:px-6 w-full">
+    <section className="w-full flex items-center min-h-screen py-8 md:py-0" style={{ minHeight: 'calc(100vh - 4rem)' }}>
+      <div className="container mx-auto px-4 md:px-6 w-full max-w-7xl">
         <div className="grid gap-8 lg:grid-cols-2 lg:gap-16 xl:gap-24 items-center h-full">
           <motion.div 
             className="flex flex-col justify-center space-y-8"
@@ -28,9 +28,9 @@ export function Hero() {
             animate="visible"
             transition={{ duration: 0.8, delay: 0.3 }}
           >
-            <div className="space-y-8">
+            <div className="space-y-6 md:space-y-8">
               <motion.h1 
-                className="font-headline text-4xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none"
+                className="font-headline text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl xl:text-6xl/none text-center lg:text-left"
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.5 }}
@@ -38,7 +38,7 @@ export function Hero() {
                 Hi, I'm Olaniran Pamilerin
               </motion.h1>
               <motion.p 
-                className="text-primary font-semibold text-xl md:text-2xl"
+                className="text-primary font-semibold text-lg md:text-xl lg:text-2xl text-center lg:text-left"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.7 }}
@@ -46,7 +46,7 @@ export function Hero() {
                 A Frontend Developer & Python Programmer
               </motion.p>
               <motion.p 
-                className="max-w-[600px] text-muted-foreground md:text-xl leading-relaxed"
+                className="max-w-[600px] text-muted-foreground text-base md:text-lg lg:text-xl leading-relaxed text-center lg:text-left mx-auto lg:mx-0"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.9 }}
@@ -55,7 +55,7 @@ export function Hero() {
               </motion.p>
             </div>
             <motion.div 
-              className="flex flex-col gap-4 min-[400px]:flex-row mt-12"
+              className="flex flex-col gap-4 min-[400px]:flex-row mt-8 md:mt-12 justify-center lg:justify-start"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 1.1 }}
@@ -115,7 +115,7 @@ export function Hero() {
             </motion.div>
           </motion.div>
           <motion.div 
-            className="flex flex-col items-center justify-center space-y-10 relative"
+            className="flex flex-col items-center justify-center space-y-8 md:space-y-10 relative mt-8 lg:mt-0"
             variants={fadeInRight}
             initial="hidden"
             animate="visible"
@@ -135,7 +135,7 @@ export function Hero() {
               }}
             />
             <motion.p 
-              className="font-headline text-2xl font-semibold tracking-wide mb-6"
+              className="font-headline text-xl md:text-2xl font-semibold tracking-wide mb-4 md:mb-6"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.8 }}
@@ -143,7 +143,7 @@ export function Hero() {
               Key Skills
             </motion.p>
             <motion.div 
-              className="flex flex-wrap gap-4 justify-center max-w-lg"
+              className="flex flex-wrap gap-3 md:gap-4 justify-center max-w-lg px-4"
               variants={staggerContainer}
               initial="hidden"
               animate="visible"
@@ -164,7 +164,7 @@ export function Hero() {
                 >
                   <Badge 
                     variant="outline" 
-                    className="text-base px-4 py-2 border-primary/50 hover:border-primary hover:bg-primary/5 transition-all duration-300 cursor-pointer"
+                    className="text-sm md:text-base px-3 md:px-4 py-2 border-primary/50 hover:border-primary hover:bg-primary/5 transition-all duration-300 cursor-pointer"
                   >
                     {skill}
                   </Badge>
