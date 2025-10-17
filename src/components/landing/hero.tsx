@@ -18,7 +18,7 @@ export function Hero() {
   };
   
   return (
-    <section className="w-full flex items-center min-h-screen py-8 md:py-0" style={{ minHeight: 'calc(100vh - 4rem)' }}>
+    <section className="w-full flex items-center py-8 md:py-0" style={{ minHeight: 'calc(100vh - 4rem)', paddingTop: '5rem' }}>
       <div className="container mx-auto px-4 md:px-6 w-full max-w-7xl">
         <div className="grid gap-8 lg:grid-cols-2 lg:gap-16 xl:gap-24 items-center h-full">
           <motion.div 
