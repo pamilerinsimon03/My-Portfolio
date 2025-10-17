@@ -10,7 +10,7 @@ export default function Home() {
   return (
     <div className="flex flex-col min-h-[100dvh] bg-background">
       <Header />
-      <main className="flex-1 px-6 md:px-12 lg:px-24">
+      <main className="flex-1 w-full">
         <Hero />
         <Projects />
         <Experience />

@@ -2,6 +2,8 @@ import type { Metadata } from 'next';
 import './globals.css';
 import { Toaster } from "@/components/ui/toaster";
 import { ThemeProvider } from '@/components/theme-provider';
+import { PageLoaderWrapper } from '@/components/page-loader-wrapper';
+import { CursorTrail } from '@/components/cursor-trail';
 
 export const metadata: Metadata = {
   title: "Olaniran Pamilerin's Portfolio",
@@ -27,7 +29,10 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          {children}
+          <PageLoaderWrapper>
+            {children}
+          </PageLoaderWrapper>
+          <CursorTrail />
           <Toaster />
         </ThemeProvider>
       </body>
