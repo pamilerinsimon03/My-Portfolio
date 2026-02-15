@@ -28,7 +28,6 @@ export function Footer() {
     <footer className="w-full py-6 px-4 md:px-6 border-t bg-background">
       <div className="container mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
         <div className="flex items-center gap-2">
-            <LogoIcon className="h-6 w-6 text-primary" />
             <span className="text-sm text-muted-foreground">© {new Date().getFullYear()} Olaniran Pamilerin. All rights reserved.</span>
         </div>
         <div className="flex items-center gap-2">

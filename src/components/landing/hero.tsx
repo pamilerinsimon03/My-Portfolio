@@ -1,5 +1,7 @@
 "use client"
 
+import { TypeAnimation } from 'react-type-animation';
+
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ArrowRight } from "lucide-react";
@@ -18,7 +20,7 @@ export function Hero() {
   };
   
   return (
-    <section className="w-full flex items-center py-8 md:py-0" style={{ minHeight: 'calc(100vh - 4rem)', paddingTop: '5rem' }}>
+    <section className="w-full flex items-center py-8 md:py-0" style={{ minHeight: '100vh', paddingTop: '5rem' }}>
       <div className="container mx-auto px-4 md:px-6 w-full max-w-7xl">
         <div className="grid gap-8 lg:grid-cols-2 lg:gap-16 xl:gap-24 items-center h-full">
           <motion.div 
@@ -43,7 +45,20 @@ export function Hero() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.7 }}
               >
-                A Frontend Developer & Python Programmer
+                <TypeAnimation
+                  sequence={[
+                    "I Build Apps",
+                    2000,
+                    "I Design Brands",
+                    2000,
+                    "I Edit Stories",
+                    2000,
+                  ]}
+                  wrapper="span"
+                  speed={50}
+                  repeat={Infinity}
+                  className="text-primary font-semibold text-lg md:text-xl lg:text-2xl text-center lg:text-left block"
+                />
               </motion.p>
               <motion.p 
                 className="max-w-[600px] text-muted-foreground text-base md:text-lg lg:text-xl leading-relaxed text-center lg:text-left mx-auto lg:mx-0"
@@ -51,7 +66,7 @@ export function Hero() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.9 }}
               >
-                I build responsive apps and automation workflows, translating complex needs into simple, intuitive solutions.
+                Merging technical expertise with creative vision. I build scalable applications, craft compelling brand identities, and tell engaging visual stories.
               </motion.p>
             </div>
             <motion.div 
@@ -121,56 +136,59 @@ export function Hero() {
             animate="visible"
             transition={{ duration: 0.8, delay: 0.5 }}
           >
-            <motion.div 
-              className="w-96 h-96 rounded-full bg-primary/40 blur-2xl absolute -z-10 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
-              style={{ y }}
-              animate={{
-                scale: [1, 1.2, 1],
-                opacity: [0.4, 0.6, 0.4],
-              }}
-              transition={{
-                duration: 4,
-                repeat: Infinity,
-                ease: "easeInOut"
-              }}
-            />
-            <motion.p 
-              className="font-headline text-xl md:text-2xl font-semibold tracking-wide mb-4 md:mb-6"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.8 }}
-            >
-              Key Skills
-            </motion.p>
-            <motion.div 
-              className="flex flex-wrap gap-3 md:gap-4 justify-center max-w-lg px-4"
-              variants={staggerContainer}
-              initial="hidden"
-              animate="visible"
-            >
-              {[
-                "React.js", "Next.js", "JavaScript", "Python", "Tailwind CSS", 
-                "TypeScript", "Bootstrap", "PHP", "MySQL", "HTML", "CSS"
-              ].map((skill, index) => (
-                <motion.div
-                  key={skill}
-                  variants={staggerItem}
-                  whileHover={{ 
-                    y: -5, 
-                    scale: 1.05,
-                    transition: { duration: 0.2 }
-                  }}
-                  whileTap={{ scale: 0.95 }}
-                >
-                  <Badge 
-                    variant="outline" 
-                    className="text-sm md:text-base px-3 md:px-4 py-2 border-primary/50 hover:border-primary hover:bg-primary/5 transition-all duration-300 cursor-pointer"
+            <div className="relative flex flex-col items-center justify-center">
+              <motion.div 
+                className="w-[120%] h-[120%] rounded-full bg-primary/40 blur-2xl absolute -z-10 top-1/2 left-1/2"
+                style={{ x: "-50%", y: "-50%" }}
+                animate={{
+                  scale: [1, 1.1, 1],
+                  opacity: [0.4, 0.6, 0.4],
+                }}
+                transition={{
+                  duration: 5,
+                  repeat: Infinity,
+                  ease: "easeInOut"
+                }}
+              />
+              <motion.p 
+                className="font-headline text-xl md:text-2xl font-semibold tracking-wide mb-4 md:mb-6"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.8 }}
+              >
+                Key Skills
+              </motion.p>
+              <motion.div 
+                className="flex flex-wrap gap-3 md:gap-4 justify-center max-w-lg px-4"
+                variants={staggerContainer}
+                initial="hidden"
+                animate="visible"
+              >
+                {[
+                  "React.js", "Next.js", "Python", "Tailwind CSS", 
+                  "Figma", "UI/UX", "Premiere Pro", "After Effects",
+                  "TypeScript", "PHP & MySQL", "Graphic Design"
+                ].map((skill, index) => (
+                  <motion.div
+                    key={skill}
+                    variants={staggerItem}
+                    whileHover={{ 
+                      y: -5, 
+                      scale: 1.05,
+                      transition: { duration: 0.2 }
+                    }}
+                    whileTap={{ scale: 0.95 }}
                   >
-                    {skill}
-                  </Badge>
-                </motion.div>
-              ))}
-            </motion.div>
+                    <Badge 
+                      variant="outline" 
+                      className="text-sm md:text-base px-3 md:px-4 py-2 border-primary/50 hover:border-primary hover:bg-primary/5 transition-all duration-300 cursor-pointer"
+                    >
+                      {skill}
+                    </Badge>
+                  </motion.div>
+                ))}
+              </motion.div>
+            </div>
           </motion.div>
         </div>
       </div>

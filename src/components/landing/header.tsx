@@ -189,7 +189,6 @@ export function Header() {
             <SheetTitle className="sr-only">Navigation Menu</SheetTitle>
             <div className="p-4 border-b flex justify-between items-center">
                 <Link href="#" className="flex items-center gap-2" prefetch={false} onClick={() => setOpen(false)}>
-                    <LogoIcon className="h-6 w-6 text-primary" />
                     <span className="font-headline font-semibold text-lg">Olaniran Pamilerin</span>
                 </Link>
             </div>

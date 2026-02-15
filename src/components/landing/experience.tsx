@@ -4,24 +4,29 @@ import { motion, useInView } from "framer-motion";
 import { fadeInLeft, fadeInRight, staggerContainer, staggerItem, timelineDot } from "@/lib/animations";
 import { useRef } from "react";
 
+import { Badge } from "@/components/ui/badge";
+
 const experiences = [
   {
     company: "Apps&Scripts Technologies",
     title: "Frontend Developer",
     period: "Dec 2023 - April 2025",
     description: "Built responsive web apps with React.js and Tailwind, boosting usability by 20%. Integrated Python automation workflows, saving team hours weekly and optimizing apps for mobile, which increased traffic by 15%.",
+    tags: ["Development", "UI/UX Design", "Product Design"]
   },
   {
     company: "3MTT Nigeria",
     title: "Product Design Tutor",
     period: "Aug 2024 - Nov 2024",
     description: "Guided students in product design fundamentals and delivered hands-on lessons in HTML, CSS, & React.js. Mentored students on project workflows and job readiness, helping them ship functional projects and improve portfolio quality.",
+    tags: ["Teaching", "Product Design", "Mentorship"]
   },
   {
     company: "Premium Print House Designs",
     title: "Graphic Designer",
     period: "April 2023 - June 2023",
     description: "Designed branding and marketing assets that increased client recognition by 20%. Collaborated on web layouts and digital graphics, improving user engagement and gaining design experience that now enhances my frontend work.",
+    tags: ["Graphic Design", "Branding", "Marketing"]
   },
 ];
 
@@ -87,6 +92,13 @@ export function Experience() {
                     <h3 className="text-xl font-bold font-headline mt-1">{exp.title}</h3>
                     <p className="text-lg font-semibold text-primary">{exp.company}</p>
                     <p className="mt-4 text-muted-foreground">{exp.description}</p>
+                    <div className="flex flex-wrap gap-2 mt-4">
+                        {exp.tags.map(tag => (
+                            <Badge key={tag} variant="secondary" className="text-xs bg-secondary/50 hover:bg-secondary/70">
+                                {tag}
+                            </Badge>
+                        ))}
+                    </div>
                   </motion.div>
                 )}
               </div>
@@ -110,6 +122,13 @@ export function Experience() {
                     <h3 className="text-xl font-bold font-headline mt-1">{exp.title}</h3>
                     <p className="text-lg font-semibold text-primary">{exp.company}</p>
                     <p className="mt-4 text-muted-foreground">{exp.description}</p>
+                    <div className="flex flex-wrap gap-2 mt-4">
+                        {exp.tags.map(tag => (
+                            <Badge key={tag} variant="secondary" className="text-xs bg-secondary/50 hover:bg-secondary/70">
+                                {tag}
+                            </Badge>
+                        ))}
+                    </div>
                  </motion.div>
                  {index % 2 !== 0 && (
                     <motion.div 
@@ -122,6 +141,13 @@ export function Experience() {
                         <h3 className="text-xl font-bold font-headline mt-1">{exp.title}</h3>
                         <p className="text-lg font-semibold text-primary">{exp.company}</p>
                         <p className="mt-4 text-muted-foreground">{exp.description}</p>
+                        <div className="flex flex-wrap gap-2 mt-4">
+                            {exp.tags.map(tag => (
+                                <Badge key={tag} variant="secondary" className="text-xs bg-secondary/50 hover:bg-secondary/70">
+                                    {tag}
+                                </Badge>
+                            ))}
+                        </div>
                     </motion.div>
                  )}
               </div>
