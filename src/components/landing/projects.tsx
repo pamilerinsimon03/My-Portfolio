@@ -3,17 +3,17 @@
 import React, { useState, useRef } from "react"
 import Image from "next/image";
 import Link from "next/link";
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious, type CarouselApi } from "@/components/ui/carousel";
 import { Dialog, DialogContent, DialogTitle} from "@/components/ui/dialog";
-import { Github, ExternalLink, ZoomIn, ChevronLeft, ChevronRight, Play, Code, Palette, Video, Layers } from "lucide-react";
+import { Github, ExternalLink, ZoomIn, ChevronLeft, ChevronRight, Play, Code, Palette, Video, Layers, Megaphone, Printer, PenTool } from "lucide-react";
 import Autoplay from "embla-carousel-autoplay"
 import { motion, useInView, AnimatePresence } from "framer-motion";
-import { fadeInUp, staggerContainer, staggerItem, buttonHover } from "@/lib/animations";
-import { projects as allProjects, Project, Category } from "@/constants/projects";
+import { projects as allProjects, Project, Category, SubCategory } from "@/constants/projects";
 import { cn } from "@/lib/utils";
+import { ProjectModal } from "./project-modal";
 
 // --- Components ---
 
@@ -69,21 +69,20 @@ function FullScreenImageViewer({ images, initialIndex, open, onOpenChange }: { i
 function ProjectCardDev({ project }: { project: Project }) {
   const [isFullScreenOpen, setIsFullScreenOpen] = React.useState(false);
   const [initialImageIndex, setInitialImageIndex] = React.useState(0);
+  const [api, setApi] = React.useState<CarouselApi>();
   
-  const plugin = React.useRef(
+  const plugins = React.useMemo(() => [
     Autoplay({ delay: 2000, stopOnInteraction: true, playOnInit: false })
-  );
+  ], []);
 
   const handleMouseEnter = () => {
-    if (plugin.current) {
-        plugin.current.play();
-    }
+    if (!api) return;
+    api.plugins().autoplay?.play();
   };
 
   const handleMouseLeave = () => {
-    if (plugin.current) {
-        plugin.current.stop();
-    }
+    if (!api) return;
+    api.plugins().autoplay?.stop();
   };
 
   const handleImageClick = (index: number) => {
@@ -100,7 +99,8 @@ function ProjectCardDev({ project }: { project: Project }) {
       >
         <CardContent className="p-0 flex-grow">
           <Carousel 
-            plugins={[plugin.current]}
+            setApi={setApi}
+            plugins={plugins}
             className="w-full"
           >
             <CarouselContent>
@@ -113,6 +113,7 @@ function ProjectCardDev({ project }: { project: Project }) {
                             width={600}
                             height={400}
                             className="w-full h-auto aspect-[3/2] object-cover transition-transform duration-500 group-hover:scale-105"
+                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                         />
                         <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100">
                              <ZoomIn className="text-white w-10 h-10 drop-shadow-md" />
@@ -174,44 +175,113 @@ function ProjectCardDev({ project }: { project: Project }) {
 }
 
 function ProjectCardDesign({ project }: { project: Project }) {
-    const [isFullScreenOpen, setIsFullScreenOpen] = React.useState(false);
+    const [isModalOpen, setIsModalOpen] = React.useState(false);
+    const [isImageViewerOpen, setIsImageViewerOpen] = React.useState(false);
+    const [api, setApi] = React.useState<CarouselApi>();
+    const hasCaseStudy = !!project.challenge;
+
+    const plugins = React.useMemo(() => [
+        Autoplay({ delay: 3000, stopOnInteraction: false, playOnInit: false })
+    ], []);
+
+    const handleMouseEnter = () => {
+        if (!api) return;
+        api.plugins().autoplay?.play();
+    };
+
+    const handleMouseLeave = () => {
+        if (!api) return;
+        api.plugins().autoplay?.stop();
+    };
+
+    const handleClick = () => {
+        if (hasCaseStudy) {
+            setIsModalOpen(true);
+        } else {
+            setIsImageViewerOpen(true);
+        }
+    };
 
     return (
         <>
-        <motion.div 
-            whileHover={{ y: -5 }}
-            className="group relative overflow-hidden rounded-xl cursor-pointer"
-            onClick={() => setIsFullScreenOpen(true)}
-        >
-            <div className="aspect-[4/3] w-full relative">
-                <Image
-                    src={project.images[0]}
-                    alt={project.title}
-                    fill
-                    className="object-cover transition-transform duration-500 group-hover:scale-110"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
-                    <h3 className="text-white text-xl font-bold font-headline translate-y-4 group-hover:translate-y-0 transition-transform duration-300">{project.title}</h3>
-                    <p className="text-white/80 text-sm translate-y-4 group-hover:translate-y-0 transition-transform duration-300 delay-75 line-clamp-2">{project.description}</p>
+            <motion.div 
+                whileHover={{ y: -5 }}
+                className="group relative overflow-hidden rounded-xl cursor-pointer"
+                onClick={handleClick}
+                onMouseEnter={handleMouseEnter}
+                onMouseLeave={handleMouseLeave}
+            >
+                <div className="aspect-[4/3] w-full relative">
+                     <Carousel
+                        setApi={setApi}
+                        plugins={plugins}
+                        className="w-full h-full"
+                        opts={{
+                            loop: true,
+                        }}
+                    >
+                        <CarouselContent className="h-full ml-0">
+                            {project.images.map((image, index) => (
+                                <CarouselItem key={index} className="pl-0 h-full relative aspect-[4/3] bg-black">
+                                    {/* Blurred Background for Fill */}
+                                    <div className="absolute inset-0 overflow-hidden">
+                                        <Image
+                                            src={image}
+                                            alt=""
+                                            fill
+                                            className="object-cover blur-xl opacity-50 scale-110"
+                                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                                        />
+                                    </div>
+                                    {/* Main Image - Contained */}
+                                    <Image
+                                        src={image}
+                                        alt={`${project.title} - Slide ${index + 1}`}
+                                        fill
+                                        className="object-contain z-10 transition-transform duration-700 group-hover:scale-110"
+                                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                                    />
+                                </CarouselItem>
+                            ))}
+                        </CarouselContent>
+                    </Carousel>
+                    
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent opacity-0 md:opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6 z-10 pointer-events-none">
+                        <Badge className="w-fit mb-2 bg-white/20 hover:bg-white/30 text-white border-0 backdrop-blur-md">
+                            {project.subCategory || "Design"}
+                        </Badge>
+                        <h3 className="text-white text-xl font-bold font-headline translate-y-4 group-hover:translate-y-0 transition-transform duration-300">{project.title}</h3>
+                        <p className="text-white/80 text-sm translate-y-4 group-hover:translate-y-0 transition-transform duration-300 delay-75 line-clamp-2 mt-2">
+                            {project.description}
+                        </p>
+                        {hasCaseStudy && (
+                            <div className="mt-4 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300 delay-100">
+                                 <span className="text-xs font-medium text-white/90 uppercase tracking-widest border-b border-white/50 pb-0.5">View Case Study</span>
+                            </div>
+                        )}
+                    </div>
                 </div>
-            </div>
-        </motion.div>
-        
-        <FullScreenImageViewer 
-            images={project.images}
-            initialIndex={0}
-            open={isFullScreenOpen}
-            onOpenChange={setIsFullScreenOpen}
-        />
+            </motion.div>
+            
+            {hasCaseStudy ? (
+                <ProjectModal 
+                    project={project}
+                    open={isModalOpen}
+                    onOpenChange={setIsModalOpen}
+                />
+            ) : (
+                <FullScreenImageViewer
+                    images={project.images}
+                    initialIndex={0}
+                    open={isImageViewerOpen}
+                    onOpenChange={setIsImageViewerOpen}
+                />
+            )}
         </>
     );
 }
 
 function ProjectCardVideo({ project }: { project: Project }) {
-    const [isPlaying, setIsPlaying] = useState(false); // Placeholder for actual video playing logic
-
-    // In a real scenario, you might embed a YouTube/Vimeo player here when clicked.
-    // For now, we'll link to the url or just show the thumbnail.
     
     return (
         <Card className="overflow-hidden group hover:shadow-xl transition-shadow duration-300 h-full flex flex-col">
@@ -221,6 +291,7 @@ function ProjectCardVideo({ project }: { project: Project }) {
                     alt={project.title}
                     fill
                     className="object-cover transition-transform duration-500 group-hover:scale-105"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 />
                 {project.liveUrl && (
                     <Link href={project.liveUrl} target="_blank" className="absolute inset-0 flex items-center justify-center bg-black/30 group-hover:bg-black/40 transition-colors">
@@ -241,28 +312,44 @@ function ProjectCardVideo({ project }: { project: Project }) {
 
 // --- Main Projects Component ---
 
+type FilterType = 'all' | 'dev' | 'design' | 'video' | SubCategory;
+
 export function Projects() {
-  const [activeTab, setActiveTab] = useState<'all' | Category>('all');
+  const [activeTab, setActiveTab] = useState<FilterType>('all');
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
-  const filteredProjects = activeTab === 'all' 
-    ? [
-        ...allProjects.filter(p => p.category === 'dev').slice(0, 3),
-        ...allProjects.filter(p => p.category === 'design').slice(0, 3),
-        ...allProjects.filter(p => p.category === 'video').slice(0, 3)
-      ]
-    : allProjects.filter(p => p.category === activeTab);
+  const filteredProjects = React.useMemo(() => {
+    if (activeTab === 'all') {
+         // Show a mix of projects for 'All'
+         return [
+            ...allProjects.filter(p => p.category === 'dev').slice(0, 3), // Prioritize dev
+            ...allProjects.filter(p => p.category === 'design').slice(0, 3),
+            ...allProjects.filter(p => p.category === 'video').slice(0, 2)
+         ];
+    }
+    
+    // Check if it's a main category
+    if (activeTab === 'dev' || activeTab === 'design' || activeTab === 'video') {
+         return allProjects.filter(p => p.category === activeTab);
+    }
 
-  const tabs = [
+    // Check if it's a sub-category
+    return allProjects.filter(p => p.subCategory === activeTab);
+
+  }, [activeTab]);
+
+  const tabs: { id: FilterType, label: string, icon: React.ElementType }[] = [
     { id: 'all', label: 'All Work', icon: Layers },
     { id: 'dev', label: 'Development', icon: Code },
     { id: 'design', label: 'Design', icon: Palette },
+    { id: 'Marketing & Social', label: 'Marketing', icon: Megaphone },
+    { id: 'Product & Print', label: 'Product & Print', icon: Printer },
     { id: 'video', label: 'Video', icon: Video },
   ];
 
   return (
-    <section id="projects" className="w-full py-12 md:py-24 lg:py-32 bg-muted">
+    <section id="projects" className="w-full py-12 md:py-24 lg:py-32 bg-muted/30">
       <div className="container mx-auto px-4 md:px-6">
         {/* Header */}
         <motion.div 
@@ -286,7 +373,7 @@ export function Projects() {
               animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
               transition={{ duration: 0.6, delay: 0.4 }}
             >
-              A showcase of my projects across development, design, and video production.
+              A showcase of strategic design, development, and video production.
             </motion.p>
           </div>
         </motion.div>
@@ -304,10 +391,12 @@ export function Projects() {
                     <Button
                         key={tab.id}
                         variant={activeTab === tab.id ? "default" : "outline"}
-                        onClick={() => setActiveTab(tab.id as any)}
+                        onClick={() => setActiveTab(tab.id)}
                         className={cn(
-                            "rounded-full px-6 transition-all duration-300",
-                            activeTab === tab.id && "ring-2 ring-primary ring-offset-2 ring-offset-background"
+                            "rounded-full px-4 md:px-6 transition-all duration-300",
+                            activeTab === tab.id 
+                                ? "ring-2 ring-primary ring-offset-2 ring-offset-background scale-105" 
+                                : "text-muted-foreground hover:text-white hover:bg-primary/80"
                         )}
                     >
                         <Icon className="w-4 h-4 mr-2" />
@@ -327,10 +416,10 @@ export function Projects() {
                     exit={{ opacity: 0, y: -20 }}
                     transition={{ duration: 0.3 }}
                     className={cn(
-                        "grid gap-8",
-                        // Adjust grid columns based on active tab for optimal storage
-                        activeTab === 'design' 
-                            ? "grid-cols-1 sm:grid-cols-2 md:grid-cols-3" 
+                        "grid gap-6 md:gap-8",
+                        // Adjust grid columns based on content
+                         (activeTab === 'design' || activeTab === 'Marketing & Social' || activeTab === 'Product & Print' || activeTab === 'all')
+                            ? "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3" 
                             : "grid-cols-1 md:grid-cols-2"
                     )}
                 >
@@ -338,7 +427,7 @@ export function Projects() {
                          <motion.div
                             key={project.title}
                             layout
-                            initial={{ opacity: 0, scale: 0.9 }}
+                            initial={{ opacity: 0, scale: 0.95 }}
                             animate={{ opacity: 1, scale: 1 }}
                             transition={{ duration: 0.3, delay: index * 0.05 }}
                          >
@@ -350,8 +439,9 @@ export function Projects() {
                 </motion.div>
             </AnimatePresence>
             {filteredProjects.length === 0 && (
-                <div className="text-center py-20 text-muted-foreground">
-                    No projects found in this category yet.
+                <div className="flex flex-col items-center justify-center py-20 text-muted-foreground">
+                    <Layers className="w-12 h-12 mb-4 opacity-20" />
+                    <p>No projects found in this category yet.</p>
                 </div>
             )}
         </div>
