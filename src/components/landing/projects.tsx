@@ -250,8 +250,8 @@ function ProjectCardDesign({ project }: { project: Project }) {
                         <Badge className="w-fit mb-2 bg-white/20 hover:bg-white/30 text-white border-0 backdrop-blur-md">
                             {project.subCategory || "Design"}
                         </Badge>
-                        <h3 className="text-white text-xl font-bold font-headline translate-y-4 group-hover:translate-y-0 transition-transform duration-300">{project.title}</h3>
-                        <p className="text-white/80 text-sm translate-y-4 group-hover:translate-y-0 transition-transform duration-300 delay-75 line-clamp-2 mt-2">
+                        <h3 className="text-white text-lg md:text-xl font-bold font-headline translate-y-4 group-hover:translate-y-0 transition-transform duration-300">{project.title}</h3>
+                        <p className="text-white/80 text-xs md:text-sm translate-y-4 group-hover:translate-y-0 transition-transform duration-300 delay-75 line-clamp-2 mt-2">
                             {project.description}
                         </p>
                         {hasCaseStudy && (

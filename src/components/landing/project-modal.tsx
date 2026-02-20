@@ -167,9 +167,9 @@ export function ProjectModal({ project, open, onOpenChange }: ProjectModalProps)
                                             </CarouselItem>
                                         ))}
                                     </CarouselContent>
-                                    <div className="hidden md:block">
-                                        <CarouselPrevious className="-left-4" />
-                                        <CarouselNext className="-right-4" />
+                                    <div className="block">
+                                        <CarouselPrevious className="left-2 bg-black/50 hover:bg-black/70 border-white/20 text-white md:-left-4 md:bg-transparent md:hover:bg-transparent md:border-border md:text-foreground" />
+                                        <CarouselNext className="right-2 bg-black/50 hover:bg-black/70 border-white/20 text-white md:-right-4 md:bg-transparent md:hover:bg-transparent md:border-border md:text-foreground" />
                                     </div>
                                 </Carousel>
                              </section>
